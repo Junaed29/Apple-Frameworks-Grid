@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Framework: Hashable {
+struct Framework: Identifiable {
+    let id = UUID()
     let name, imageName, urlString, description: String
 }
 
