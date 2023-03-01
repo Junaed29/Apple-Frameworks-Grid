@@ -8,12 +8,20 @@
 import SwiftUI
 
 struct FramworkGridView: View {
-    
+    let columns: [GridItem] = [
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+    ]
     
     var body: some View {
-        VStack {
-            FrameworkTitleView(name: "App Clips", imageName: "app-clip")
-
+        LazyVGrid(columns: columns) {
+            
+            ForEach(MockData.frameworks, id: \.self) { item in
+                FrameworkTitleView(name: item.name, imageName: item.imageName)
+            }
+            
+            
         }
     }
 }
@@ -26,7 +34,7 @@ struct FramworkGridView_Previews: PreviewProvider {
 
 
 struct FrameworkTitleView: View {
-    let name: String
+    let name: String 
     let imageName: String
     
     var body: some View{
@@ -40,6 +48,7 @@ struct FrameworkTitleView: View {
                 .font(.title2)
                 .fontWeight(.semibold)
                 .scaledToFit()
+                .minimumScaleFactor(0.6)
         }
     }
 }

@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct Framework {
+struct Framework: Hashable {
     let name, imageName, urlString, description: String
 }
 
 
-struct MockData {
+struct MockData{
 
     static let sampleFramework = Framework(name: "ARKit",
                                            imageName: "arkit",
