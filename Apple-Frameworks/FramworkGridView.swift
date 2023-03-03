@@ -13,18 +13,29 @@ struct FramworkGridView: View {
         GridItem(.flexible()),
         GridItem(.flexible()),
     ]
+    
+    @StateObject var viewModel = FramworkGridViewModel()
+    
 
     var body: some View {
         NavigationView {
             
             ScrollView {
                 LazyVGrid(columns: columns) {
-                    ForEach(MockData.frameworks) { item in
-                        FrameworkTitleView(framwork: item)
+                    ForEach(MockData.frameworks) { framwork in
+                        FrameworkTitleView(framwork: framwork)
+                            .onTapGesture {
+                                viewModel.selectedFramwork = framwork
+                            }
                     }
                 }
             }
             .navigationTitle("🍎 Frameworks")
+            .sheet(isPresented: $viewModel.isShowingDetailView) {
+                FramworkDetailView(
+                    framwork: viewModel.selectedFramwork ?? MockData.sampleFramework,
+                    isShowingDetailView: $viewModel.isShowingDetailView)
+            }
         }
         
     }
@@ -38,23 +49,3 @@ struct FramworkGridView_Previews: PreviewProvider {
 
 
 
-struct FrameworkTitleView: View {
-    let framwork: Framework
-
-
-    var body: some View {
-        VStack {
-            Image(framwork.imageName)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 90, height: 90)
-
-            Text(framwork.name)
-                .font(.title2)
-                .fontWeight(.semibold)
-                .scaledToFit()
-                .minimumScaleFactor(0.6)
-        }
-        .padding()
-    }
-}
