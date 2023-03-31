@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct FramworkGridView: View {
-    let columns: [GridItem] = [
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-    ]
+
     
     @StateObject var viewModel = FramworkGridViewModel()
     
@@ -21,7 +17,7 @@ struct FramworkGridView: View {
         NavigationView {
             
             ScrollView {
-                LazyVGrid(columns: columns) {
+                LazyVGrid(columns: viewModel.columns) {
                     ForEach(MockData.frameworks) { framwork in
                         FrameworkTitleView(framwork: framwork)
                             .onTapGesture {
@@ -32,9 +28,9 @@ struct FramworkGridView: View {
             }
             .navigationTitle("🍎 Frameworks")
             .sheet(isPresented: $viewModel.isShowingDetailView) {
-                FramworkDetailView(
+                FramworkDetailView(viewModel: FramworkDetailViewModel(
                     framwork: viewModel.selectedFramwork ?? MockData.sampleFramework,
-                    isShowingDetailView: $viewModel.isShowingDetailView)
+                    isShowingDetailView: $viewModel.isShowingDetailView))
             }
         }
         
